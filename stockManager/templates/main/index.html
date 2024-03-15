@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Barcode Scanner</h1>
+<p>Scan the Barcode of a product using the camera or complete the input by hand</p>
+<div class="row">
+  <div class="col-sm-12">
+    <form id="barcode-form" action="{% url 'main:index' %}" method="post">
+      {% csrf_token %}
+      {{ form }}
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-12" style="text-align: center;margin-bottom: 20px;">
+    <div id="reader" style="max-width: 500px; min-height: 100px; text-align: center; position: relative; margin: auto;"></div>
+  </div>
+</div>
+<script>
+    function onScanSuccess(decodedText, decodedResult) {
+        // handle the scanned code as you like, for example:
+        console.log(`Code matched = ${decodedText}`, decodedResult);
+        const barcode = document.getElementById("id_barcode");
+        barcode.value = decodedText;
+        const form = document.getElementById("barcode-form");
+        document.body.style.background = "green";
+        const pipSound = document.getElementById('pip-sound');
+        pipSound.play();
+        form.submit();
+      }
+      
+      function onScanFailure(error) {
+        //console.warn(`Code scan error = ${error}`);
+      }
+      
+      let html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader",
+        { fps: 10, qrbox: 250 },
+        /* verbose= */ false);
+      html5QrcodeScanner.render(onScanSuccess, onScanFailure);  
+</script>
+{% endblock body %}

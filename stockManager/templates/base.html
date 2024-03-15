@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang='es'>
+    <head>
+        <title>Stock Manager</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <audio id="pip-sound" src="{% static 'pip-sound.wav' %}"></audio>
+        <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+    </head>
+<body>
+    <nav class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+        <a class="navbar-brand" href="{% url 'main:index' %}">
+            <img src="{% static 'barcode-scan.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+            Stock Manager
+          </a>
+        <div class="navbar-expand" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link" href={% url 'main:index' %}>Barcode Scanner</span></a>
+            <a class="nav-item nav-link" href={% url 'stocks:stocks' %}>Stock List</a>
+            <a class="nav-item nav-link" href={% url 'main:about' %}>About</a>
+          </div>
+        </div>
+      </nav>
+    <div class="container-fluid">
+        {% block body %}
+        {% endblock %}
+    </div>
+</body>
+</html>
